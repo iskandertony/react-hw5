@@ -1,66 +1,36 @@
 import "./Todolist.css";
+import React from 'react';
 import { useState } from "react";
 
 const Todolist = () => {
   const [valueInput, setValueInput] = useState("");
   const [todolist, setTodolist] = useState([]);
-  const [done, setDone] = useState(null);
-  const [doneArray, setDoneArray] = useState([]);
 
-  let asd = "";
 
   const handleInput = (e) => {
     const value = e.target.value;
     setValueInput(value);
   };
-  const handleButon = () => {
-    const newList = [...todolist, valueInput];
+  const handleButton = () => {
+    const newList = [...todolist, {name: valueInput, isDone: false}];
     setTodolist(newList);
     setValueInput("");
-    console.log(newList);
   };
 
   const handleDoneArray = (index) => {
-    setDone(index);
-    const newList = [...doneArray, todolist];
-    asd = newList;
-    setDoneArray(newList);
-    console.log(newList);
-    // console.log("asd:", asd);
-    const empty = [];
-    setTodolist(empty);
+    const array = todolist.map((item, i) => (
+      { name: item.name, isDone: index === i ? !item.isDone  : item.isDone}
+    ))
+    setTodolist(array)
   };
 
-  // const handleFinish = () => {
-  //   const result = asd;
-  //   setDoneArray(asd);
-  //   console.log("result:", result);
-  // };
-
-  if (done) {
-    return (
-      <div className="title">
-        <div className="title-sub">
-          <div>{done}</div>
-        </div>
-      </div>
-    );
+  const handleDelete = (i) => {
+    const array = [...todolist]
+    array.splice(i,1)
+    setTodolist(array)
   }
 
-  // if (select === "Finish") {
-  //   console.log("iska");
-  //   // return (
-  //   //   <div>
-  //   //     {doneArray.map((item, i) => (
-  //   //       <div key={i} className="title">
-  //   //         <div className="title-sub">
-  //   //           <div>{item}</div>
-  //   //         </div>
-  //   //       </div>
-  //   //     ))}
-  //   //   </div>
-  //   // );
-  // }
+  console.log(todolist);
 
   return (
     <div className="todolist">
@@ -72,7 +42,7 @@ const Todolist = () => {
             onChange={handleInput}
             placeholder="Type something .."
           />
-          <button onClick={handleButon}>+</button>
+          <button onClick={handleButton}>+</button>
           <select id="select">
             <option>...</option>
             <option value={"Finish"}>Finish</option>
@@ -85,12 +55,13 @@ const Todolist = () => {
         {todolist.map((item, index) => (
           <div key={index} className="title">
             <div className="title-sub">
-              <div>{item}</div>
+
+              <div>{item.isDone === true ? <s>{item.name}</s> : item.name}</div>
               <div>
                 <button className="red" onClick={() => handleDoneArray(index)}>
-                  Done
+                  {item.isDone === true ? "Undone" : "Done"}
                 </button>
-                <button className="blue">Delete</button>
+                <button className="blue" onClick={() => handleDelete(index)}>Delete</button>
               </div>
             </div>
           </div>
@@ -99,9 +70,5 @@ const Todolist = () => {
     </div>
   );
 };
-
-// const select = () => {
-//   let select = document.getElementById("select").value;
-// }
 
 export default Todolist;
