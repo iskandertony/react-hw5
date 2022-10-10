@@ -1,6 +1,8 @@
 import "./Todolist.css";
 import React from "react";
 import { useState } from "react";
+import { Button } from 'antd';
+import { Input } from 'antd';
 
 const Todolist = () => {
   const [valueInput, setValueInput] = useState("");
@@ -59,13 +61,14 @@ const Todolist = () => {
     <div className="todolist">
       <div className="main">
         <div className="main-sub">
-          <input
+          <Input
             id="input"
             value={valueInput}
             onChange={handleInput}
             placeholder="Type something .."
           />
-          <button onClick={handleButton}>+</button>
+
+          <Button type="primary" onClick={handleButton}>Add</Button>
           <select id="select">
             <option>...</option>
             <option value={"Finish"}>Finish</option>
@@ -81,7 +84,7 @@ const Todolist = () => {
 
               {edit === index ? (
                 <div>
-                  <input value={input} onChange={(e) => setInput(e.target.value)}></input>
+                  <Input value={input} onChange={(e) => setInput(e.target.value)}></Input>
                   <button onClick={() => handleSave(index)}>Save</button>
                 </div>
               ) : (
@@ -89,13 +92,13 @@ const Todolist = () => {
               )}
 
               <div>
-                <button onClick={() => handleEdit(index, item.name)}>edit</button>
-                <button className="red" onClick={() => handleDoneArray(index)}>
+                <Button type="primary" onClick={() => handleEdit(index, item.name)}>edit</Button>
+                <Button type="default"  onClick={() => handleDoneArray(index)}>
                   {item.isDone === true ? "Undone" : "Done"}
-                </button>
-                <button className="blue" onClick={() => handleDelete(index)}>
+                </Button>
+                <Button type="primary" danger onClick={() => handleDelete(index)}>
                   Delete
-                </button>
+                </Button>
               </div>
             </div>
 
